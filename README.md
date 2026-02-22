@@ -10,7 +10,6 @@ Structured implementation of Data Structures & Algorithms in Java.
 - Sliding Window
 - Binary Search
 - Dynamic Programming
-- Graph & Tree (if added)
 
 ## Platforms
 - LeetCode
