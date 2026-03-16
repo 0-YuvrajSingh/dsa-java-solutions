@@ -3,6 +3,8 @@ name: Move LeetCode files
 on:
   push:
     branches: [ main ]
+    paths:
+      - '*.java'          # ← Only trigger when .java files are pushed to root
 
 permissions:
   contents: write
@@ -17,16 +19,20 @@ jobs:
       - name: Move java files to src/leetcode
         run: |
           mkdir -p src/leetcode
+          moved=0
           for f in *.java; do
             if [ -f "$f" ]; then
               mv "$f" src/leetcode/
+              moved=$((moved + 1))
             fi
           done
+          echo "MOVED=$moved" >> $GITHUB_ENV
 
       - name: Commit changes
+        if: env.MOVED != '0'        # ← Skip if nothing was moved
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add .
-          git commit -m "move leetcode files" || echo "no changes"
+          git commit -m "move leetcode files [skip ci]"   # ← [skip ci] breaks the loop
           git push
