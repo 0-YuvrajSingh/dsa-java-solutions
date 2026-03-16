@@ -1,0 +1,32 @@
+name: Move LeetCode files
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  move-files:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Move java files to src/leetcode
+        run: |
+          mkdir -p src/leetcode
+          for f in *.java; do
+            if [ -f "$f" ]; then
+              mv "$f" src/leetcode/
+            fi
+          done
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "move leetcode files" || echo "no changes"
+          git push
