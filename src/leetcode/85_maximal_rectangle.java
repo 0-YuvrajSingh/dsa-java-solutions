@@ -8,12 +8,8 @@ class Solution {
         for(int i = 0; i < n; i++) {
             for(int j = 0; j < m; j++) {
                 int val =(int) matrix[i][j] - '0';
-                if(i == n - 1) {
-                    if(val == 0) arr[j] = 0;
-                    else arr[j] += val;
-                } else {
-                    arr[j] += val;
-                }
+                if(val == 0) arr[j] = 0;
+                arr[j] += val;
             }
             ans = Math.max(ans, MAH(arr));
         }
