@@ -1,0 +1,47 @@
+// Pattern: BFS / Serialization
+// Difficulty: Hard
+
+import java.util.*;
+
+class SerializeDeserialize {
+    public String serialize(TreeNode root) {
+        if (root == null) return "null";
+        StringBuilder sb = new StringBuilder();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            if (node == null) {
+                sb.append("null,");
+            } else {
+                sb.append(node.val).append(",");
+                queue.offer(node.left);
+                queue.offer(node.right);
+            }
+        }
+        return sb.toString();
+    }
+
+    public TreeNode deserialize(String data) {
+        if (data.equals("null")) return null;
+        String[] tokens = data.split(",");
+        TreeNode root = new TreeNode(Integer.parseInt(tokens[0]));
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        int i = 1;
+        while (!queue.isEmpty() && i < tokens.length) {
+            TreeNode node = queue.poll();
+            if (!tokens[i].equals("null")) {
+                node.left = new TreeNode(Integer.parseInt(tokens[i]));
+                queue.offer(node.left);
+            }
+            i++;
+            if (i < tokens.length && !tokens[i].equals("null")) {
+                node.right = new TreeNode(Integer.parseInt(tokens[i]));
+                queue.offer(node.right);
+            }
+            i++;
+        }
+        return root;
+    }
+}

@@ -1,0 +1,17 @@
+// Pattern: Math (GCD / LCM)
+// Difficulty: Easy
+
+class GCDAndLCM {
+    public int gcd(int a, int b) {
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+
+    public int lcm(int a, int b) {
+        return (a / gcd(a, b)) * b;
+    }
+}
